@@ -1,7 +1,7 @@
-<h1>helloworld</h1>
-<form action="{% url 'index' %}" method="post">
-    {% csrf_token %}
-    <button>test</button>
+<h1>csvファイルをダウンロード</h1>
+<form method="POST">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">この条件でcsvファイルを作成する</button>
 </form>
 
 
