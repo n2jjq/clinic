@@ -69,7 +69,7 @@ def scraping(request):
         df.to_csv('./clinic.csv',encoding='utf_8_sig')
     else:
         form = ConditionForm()
-    conditions = Condition.objects.filter()[:5]
+    conditions = Condition.objects.order_by('-id')[:5]
 
     return render(request ,'test.html',{'conditions':conditions, "form":form})
 
