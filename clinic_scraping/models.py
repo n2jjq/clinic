@@ -4,7 +4,7 @@ class Condition(models.Model):
   name = models.BooleanField(verbose_name='name',default=True)
   address = models.BooleanField(verbose_name='address',default=True)
   department = models.BooleanField(verbose_name='department',default=True)
-  link = models.BooleanField(verbose_name='department',default=True)
+  link = models.BooleanField(verbose_name='link',default=True)
   monday = models.BooleanField(verbose_name='monday',default=True)
   tuesday = models.BooleanField(verbose_name='tuesday',default=True)
   wednesday = models.BooleanField(verbose_name='wednesday',default=True)
