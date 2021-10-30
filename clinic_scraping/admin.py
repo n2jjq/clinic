@@ -1,3 +1,11 @@
 from django.contrib import admin
+from .models import Condition
+from .forms import ConditionForm
 
-# Register your models here.
+class ConditionAdmin(admin.ModelAdmin):
+  form = ConditionForm
+
+admin.site.register(Condition, ConditionAdmin)
+
+
+
