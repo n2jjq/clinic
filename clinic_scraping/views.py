@@ -14,23 +14,18 @@ def scraping(request):
     if request.method == 'POST':
         if 'create' in request.POST:
             form = ConditionForm(request.POST)
-            print("1")
             if form.is_valid():
                 condition = form.save()
         elif 'past' in request.POST:
-            print(request.POST['id'])
+
             condition = Condition.objects.get(id=request.POST['id'])
             form = ConditionForm()
-            print(condition)
         base_url = 'https://fdoc.jp/clinic/list/index/rgid/13/?page='
         num = 1
         clinic_lists = []
 
         while num <= 1:
             url = base_url + str(num)
-            print('##################################################')
-            print(url)
-            print('##################################################')
             num += 1
 
             time.sleep(3)
@@ -70,17 +65,14 @@ def scraping(request):
             columns.append('日')
         if condition.holiday:
             columns.append('祝')
-        print(columns)
 
         df = pd.DataFrame(clinic_lists, columns=['名前', '住所','リンク','診療科','月', '火' , '水', '木', '金', '土', '日', '祝'])
         df = df[columns]
-        print(df)
+
         df.to_csv('./clinic.csv',encoding='utf_8_sig')
     else:
         form = ConditionForm()
     conditions = Condition.objects.order_by('-id')[:5]
-
-    print('ok')
 
     return render(request ,'test.html',{'conditions':conditions, "form":form})
 
