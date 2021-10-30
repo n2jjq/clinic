@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
 from .utils import get_bussine_days, get_clinic_adress, get_clinic_department, get_clinic_name
+from .models import Condition
 
 import pandas as pd
 import time
@@ -15,7 +16,7 @@ def scraping(request):
         num = 1
         clinic_lists = []
 
-        while num <= 5:
+        while num <= 1:
             url = base_url + str(num)
             print('##################################################')
             print(url)
@@ -38,7 +39,9 @@ def scraping(request):
         df = pd.DataFrame(clinic_lists, columns=['名前', '住所','診療科','月', '火' , '水', '木', '金', '土', '日', '祝'])
         df.to_csv('./clinic.csv',encoding='utf_8_sig')
         
-        return render(request,'test.html')
-    else:
-        return render(request ,'test.html')
+    conditions = Condition.objects.filter()[:5]
+    for condition in conditions:
+        print(condition.monday)    
+
+    return render(request ,'test.html',{'conditions':conditions})
 
