@@ -49,3 +49,9 @@ def get_bussine_days(search_list):
         return business_days
     except Exception as e:
         return business_days
+
+def get_adress_url(search_list):
+    try:
+        return search_list.select_one('.address').a.get('href')
+    except:
+        return None
