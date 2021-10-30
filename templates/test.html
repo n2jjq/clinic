@@ -3,3 +3,36 @@
     {% csrf_token %}
     <button>test</button>
 </form>
+
+
+<p>直近の条件</p>
+<label>
+    <a>名前</a>
+    <a>住所</a>
+    <a>リンク</a>
+    <a>診療科</a>
+    <a>月</a>
+    <a>火</a>
+    <a>水</a>
+    <a>木</a>
+    <a>金</a>
+    <a>土</a>
+    <a>日</a>
+    <a>祝</a>
+</label>
+{% for condition in conditions %}
+<div>
+    <input type='checkbox', id='name', name='name', {% if condition.name %}checked{% endif %}>
+    <input type='checkbox', id='address', name='address', {% if condition.address %}checked{% endif %}>
+    <input type='checkbox', id='link', name='link', {% if condition.link %}checked{% endif %}>
+    <input type='checkbox', id='department', name='namdepartmente', {% if condition.department %}checked{% endif %}>
+    <input type='checkbox', id='monday', name='monday', {% if condition.monday %}checked{% endif %}>
+    <input type='checkbox', id='tuesday', name='tuesday', {% if condition.tuesday %}checked{% endif %}>
+    <input type='checkbox', id='wednesday', name='wednesday', {% if condition.wednesday %}checked{% endif %}>
+    <input type='checkbox', id='thursday', name='thursday', {% if condition.thursday %}checked{% endif %}>
+    <input type='checkbox', id='friday', name='friday', {% if condition.friday %}checked{% endif %}>
+    <input type='checkbox', id='saturday', name='saturday', {% if condition.saturday %}checked{% endif %}>
+    <input type='checkbox', id='sunday', name='sunday', {% if condition.sunday %}checked{% endif %}>
+    <input type='checkbox', id='holiday', name='holiday', {% if condition.holiday %}checked{% endif %}>
+</div>
+{% endfor%}
