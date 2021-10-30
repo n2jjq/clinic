@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
-from .utils import get_bussine_days, get_clinic_adress, get_clinic_department, get_clinic_name
+from .utils import get_bussine_days, get_clinic_adress, get_clinic_department, get_clinic_name, get_adress_url
 from .models import Condition
 from .forms import ConditionForm
 
@@ -12,11 +12,16 @@ import requests
 
 def scraping(request):
     if request.method == 'POST':
-        form = ConditionForm(request.POST)
-
-        if form.is_valid():
-            condition = form.save()
-            
+        if 'create' in request.POST:
+            form = ConditionForm(request.POST)
+            print("1")
+            if form.is_valid():
+                condition = form.save()
+        elif 'past' in request.POST:
+            print(request.POST['id'])
+            condition = Condition.objects.get(id=request.POST['id'])
+            form = ConditionForm()
+            print(condition)
         base_url = 'https://fdoc.jp/clinic/list/index/rgid/13/?page='
         num = 1
         clinic_lists = []
@@ -35,7 +40,7 @@ def scraping(request):
             clinic_search_list = bs.select('ul.clinic-search-list')
 
             for search_list in clinic_search_list[0].select('li.list-SearchList_Item'):
-                clinic_list = [get_clinic_name(search_list), get_clinic_adress(search_list), get_clinic_department(search_list)]
+                clinic_list = [get_clinic_name(search_list), get_clinic_adress(search_list), get_adress_url(search_list), get_clinic_department(search_list)]
                 for bussines_day in get_bussine_days(search_list):
                     clinic_list.append(bussines_day)
                 clinic_lists.append(clinic_list)
@@ -43,33 +48,39 @@ def scraping(request):
         columns = []
         if condition.name:
             columns.append('名前')
-        elif condition.address:
+        if condition.address:
             columns.append('住所')
-        elif condition.department:
-            columns.append('診療所')
-        elif condition.monday:
+        if condition.link:
+            columns.append('リンク')
+        if condition.department:
+            columns.append('診療科')
+        if condition.monday:
             columns.append('月')
-        elif condition.tuesday:
+        if condition.tuesday:
             columns.append('火')
-        elif condition.wednesday:
+        if condition.wednesday:
             columns.append('水')
-        elif condition.thursday:
+        if condition.thursday:
             columns.append('木')
-        elif condition.friday:
+        if condition.friday:
             columns.append('金')
-        elif condition.saturday:
+        if condition.saturday:
             columns.append('土')
-        elif condition.sunday:
+        if condition.sunday:
             columns.append('日')
-        elif condition.holiday:
+        if condition.holiday:
             columns.append('祝')
+        print(columns)
 
-        df = pd.DataFrame(clinic_lists, columns=['名前', '住所','診療科','月', '火' , '水', '木', '金', '土', '日', '祝'])
+        df = pd.DataFrame(clinic_lists, columns=['名前', '住所','リンク','診療科','月', '火' , '水', '木', '金', '土', '日', '祝'])
         df = df[columns]
+        print(df)
         df.to_csv('./clinic.csv',encoding='utf_8_sig')
     else:
         form = ConditionForm()
     conditions = Condition.objects.order_by('-id')[:5]
+
+    print('ok')
 
     return render(request ,'test.html',{'conditions':conditions, "form":form})
 
