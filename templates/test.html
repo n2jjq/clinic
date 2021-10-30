@@ -1,25 +1,63 @@
 <h1>csvファイルをダウンロード</h1>
 <form method="POST">{% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">この条件でcsvファイルを作成する</button>
+    <button type="submit" name="create">この条件でcsvファイルを作成する</button>
 </form>
 
 
 <p>直近の条件</p>
-<label>
-    <a>名前</a>
-    <a>住所</a>
-    <a>リンク</a>
-    <a>診療科</a>
-    <a>月</a>
-    <a>火</a>
-    <a>水</a>
-    <a>木</a>
-    <a>金</a>
-    <a>土</a>
-    <a>日</a>
-    <a>祝</a>
-</label>
+<table>
+    <thead>
+        <tr>名前</tr>
+        <tr>住所</tr>
+        <tr>リンク</tr>
+        <tr>診療科</tr>
+        <tr>月</tr>
+        <tr>火</tr>
+        <tr>水</tr>
+        <tr>木</tr>
+        <tr>金</tr>
+        <tr>土</tr>
+        <tr>日</tr>
+        <tr>祝</tr>
+        <tr>この条件でcsvファイルを作成する</tr>
+    </thead>
+{% for condition in conditions %}
+    <tbody>
+        <form method="POST">
+            {% csrf_token %}
+            <td><label><input type='checkbox', id='name', name='name', {% if condition.name %}checked{% endif %}></label></td>
+            <td><label><input type='checkbox', id='address', name='address', {% if condition.address %}checked{% endif %}></label></td>
+            <td><label><input type='checkbox', id='link', name='link', {% if condition.link %}checked{% endif %}></label></td>
+            <td><label><input type='checkbox', id='department', name='department', {% if condition.department %}checked{% endif %}></label></td>
+            <td><label><input type='checkbox', id='monday', name='monday', {% if condition.monday %}checked{% endif %}></label></td>
+            <td><label><input type='checkbox', id='tuesday', name='tuesday', {% if condition.tuesday %}checked{% endif %}></label></td>
+            <td><label><input type='checkbox', id='wednesday', name='wednesday', {% if condition.wednesday %}checked{% endif %}></label></td>
+            <td><label><input type='checkbox', id='thursday', name='thursday', {% if condition.thursday %}checked{% endif %}></label></td>
+            <td><label><input type='checkbox', id='friday', name='friday', {% if condition.friday %}checked{% endif %}></label></td>
+            <td><label><input type='checkbox', id='saturday', name='saturday', {% if condition.saturday %}checked{% endif %}></label></td>
+            <td><label><input type='checkbox', id='sunday', name='sunday', {% if condition.sunday %}checked{% endif %}></label></td>
+            <td><label><input type='checkbox', id='holiday', name='holiday', {% if condition.holiday %}checked{% endif %}></label></td>
+            <input type="hidden" name="id" value="{{ condition.id }}">
+            <td><input type="submit" value="送信" name="past"></td>
+        </form>
+    </tbody>
+{% endfor%}
+</table>
+<!-- <label>
+    <tr>名前</tr>
+    <tr>住所</tr>
+    <tr>リンク</tr>
+    <tr>診療科</tr>
+    <tr>月</tr>
+    <tr>火</tr>
+    <tr>水</tr>
+    <tr>木</tr>
+    <tr>金</tr>
+    <tr>土</tr>
+    <tr>日</tr>
+    <tr>祝</tr>
+
 {% for condition in conditions %}
 <div>
     <input type='checkbox', id='name', name='name', {% if condition.name %}checked{% endif %}>
@@ -35,4 +73,4 @@
     <input type='checkbox', id='sunday', name='sunday', {% if condition.sunday %}checked{% endif %}>
     <input type='checkbox', id='holiday', name='holiday', {% if condition.holiday %}checked{% endif %}>
 </div>
-{% endfor%}
+{% endfor%} -->
