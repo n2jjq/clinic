@@ -78,7 +78,7 @@ def scraping(request):
         form = ConditionForm()
     conditions = Condition.objects.order_by('-id')[:5]
 
-    return render(request ,'test.html',{'conditions':conditions, "form":form})
+    return render(request ,'top.html',{'conditions':conditions, "form":form})
 
 def download_csv(request, pk):
     if request.method == 'POST':
