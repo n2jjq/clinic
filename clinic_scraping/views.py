@@ -26,8 +26,9 @@ def scraping(request):
             form = ConditionForm()
         base_url = 'https://fdoc.jp/clinic/list/index/rgid/13/?page='
         num = 1
+        print(condition.page)
         clinic_lists = []
-        while num <= 1:
+        while num <= condition.page:
             url = base_url + str(num)
             num += 1
 
@@ -84,7 +85,7 @@ def download_csv(request, pk):
     if request.method == 'POST':
         if 'download' in request.POST:
             response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment;' + 'filename=' + str(pk) + 'clinic.csv'
+            response['Content-Disposition'] = 'attachment;' + 'filename=../static/csv' + str(pk) + 'clinic.csv'
             return response
         elif 'back' in request.POST:
             return HttpResponseRedirect(reverse('index'))

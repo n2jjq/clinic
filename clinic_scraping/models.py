@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 class Condition(models.Model):
   name = models.BooleanField(verbose_name='name',default=True)
@@ -13,6 +15,7 @@ class Condition(models.Model):
   saturday = models.BooleanField(verbose_name='saturday',default=True)
   sunday = models.BooleanField(verbose_name='sunday',default=True)
   holiday = models.BooleanField(verbose_name='holiday',default=True)
+  page = models.IntegerField(verbose_name='page', validators=[MinValueValidator(1), MaxValueValidator(5)], default=1)
 
   def __str__(self):
     return '条件'
