@@ -8,6 +8,10 @@
     <body>
         <h1>作成したcsvのダウンロード</h1>
         <form method="POST">{% csrf_token %}
+            <label for="name">
+                csvファイルに名前をつける
+                <input type="text" id="name" name="name">
+            </label>
             <button type="submit" name="download">download</button>
             <button type="submit" name="back">back</button>
         </form>

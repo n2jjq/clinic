@@ -83,9 +83,12 @@ def scraping(request):
 
 def download_csv(request, pk):
     if request.method == 'POST':
-        if 'download' in request.POST:
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment;' + 'filename=../static/csv' + str(pk) + 'clinic.csv'
+        if 'download' in request.POST:        
+            response = HttpResponse(open('static/csv/' + str(pk) + 'clinic.csv', 'rb'), content_type='text/csv')
+            if request.POST['name'] == '':
+                response['Content-Disposition'] = 'attachment; filename="clinic.csv"'
+            else:
+                response['Content-Disposition'] = 'attachment; filename=' + request.POST['name'] + '.csv'
             return response
         elif 'back' in request.POST:
             return HttpResponseRedirect(reverse('index'))
