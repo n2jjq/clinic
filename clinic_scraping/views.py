@@ -1,8 +1,12 @@
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.template import response
 from django.template.response import TemplateResponse
 from .utils import get_bussine_days, get_clinic_adress, get_clinic_department, get_clinic_name, get_adress_url
 from .models import Condition
 from .forms import ConditionForm
+from django.http import HttpResponse
+from django.urls import reverse
 
 import pandas as pd
 import time
@@ -22,9 +26,9 @@ def scraping(request):
             form = ConditionForm()
         base_url = 'https://fdoc.jp/clinic/list/index/rgid/13/?page='
         num = 1
+        print(condition.page)
         clinic_lists = []
-
-        while num <= 1:
+        while num <= condition.page:
             url = base_url + str(num)
             num += 1
 
@@ -68,11 +72,25 @@ def scraping(request):
 
         df = pd.DataFrame(clinic_lists, columns=['名前', '住所','リンク','診療科','月', '火' , '水', '木', '金', '土', '日', '祝'])
         df = df[columns]
-
-        df.to_csv('./clinic.csv',encoding='utf_8_sig')
+        df.to_csv('./static/csv/'+ str(condition.id) +'clinic.csv',encoding='utf_8_sig')
+        condition_id = condition.id
+        return HttpResponseRedirect(reverse('download', args=(condition_id, )))
     else:
         form = ConditionForm()
     conditions = Condition.objects.order_by('-id')[:5]
 
-    return render(request ,'test.html',{'conditions':conditions, "form":form})
+    return render(request ,'top.html',{'conditions':conditions, "form":form})
 
+def download_csv(request, pk):
+    if request.method == 'POST':
+        if 'download' in request.POST:        
+            response = HttpResponse(open('static/csv/' + str(pk) + 'clinic.csv', 'rb'), content_type='text/csv')
+            if request.POST['name'] == '':
+                response['Content-Disposition'] = 'attachment; filename="clinic.csv"'
+            else:
+                response['Content-Disposition'] = 'attachment; filename=' + request.POST['name'] + '.csv'
+            return response
+        elif 'back' in request.POST:
+            return HttpResponseRedirect(reverse('index'))
+    else:
+        return render(request ,'download_csv.html',{'pk':pk})
