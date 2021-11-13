@@ -8,4 +8,5 @@ from django.conf import settings
 urlpatterns = [
     # 一覧画面
     path('', views.scraping, name='index'),
+    path('download/<int:pk>/', views.download_csv, name='download')
 ] +static(settings.IMAGE_URL, document_root=settings.IMAGE_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
