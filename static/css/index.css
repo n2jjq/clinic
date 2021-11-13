@@ -1,1 +1,141 @@
 @charset "utf-8";
+
+body{
+    /* iPhone */
+    position: relative;
+    width: 375px;
+    height: 1272px;
+    
+    background: #EFEFEF;
+    }
+    
+    h1{
+    /* CSVファイルをダウンロード */
+    position: absolute;
+    width: 154px;
+    height: 22px;
+    left: 62px;
+    top: 78px;
+    
+    font-family: Content;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 22px;
+    /* identical to box height */
+    color: #8D8D8D;
+    }
+    
+    form[method="POST"]{
+    display: block;
+    position: absolute;
+    width: 46px;
+    height: 29px;
+    left: 80px;
+    top: 110px;
+    
+    font-family: Content;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 29px;
+    
+    color: #4F4F4F;
+
+    width: 80%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form p input{
+    position: relative;
+    left:20px
+    
+}
+
+
+   
+form > p {
+    display: flex;
+    justify-content: space-between;
+}
+
+form input[type="checkbox" i] {
+    float:right;
+}
+    
+button[type="submit"]{
+    /* この条件でCSVファイルを作成する */
+    position: absolute;
+    width: 252px;
+    height: 38px;
+    left:30px;
+    top: 582px;
+    
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+    
+    /* この条件でCSVファイルを作成する */
+    
+    font-family: Content;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 26px;
+    /* identical to box height */
+    
+    color: #515151;
+}
+    
+form+p{
+    /* 直近の条件 */
+    position: absolute;
+    width: 60px;
+    height: 22px;
+    left: 63px;
+    top: 800px;
+    
+    font-family: Content;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 22px;
+    /* identical to box height */
+    color: #8D8D8D;
+}
+
+    
+.tb-wrap{
+    width:100%;
+    overflow-x:scroll;
+
+    position: absolute;
+    left: 70px;
+    top: 860px;
+
+
+  }
+  table{
+    border-collapse: collapse;
+    width: 500px;
+  }
+
+  .tb01 tr,
+  .tb01 td,
+  td input[type="submit"]
+  {
+    padding: 10px;
+    border: solid 1px #ccc;
+    text-align:center;
+    box-sizing:border-box;
+  }
+
+  .tb01 tr {
+    background:#EFEFEF;
+    color: #4F4F4F;
+    
+  }
+
+ 
